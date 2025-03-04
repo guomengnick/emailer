@@ -1,0 +1,6 @@
+__recovery/
+__history/
+bin/
+obj/
+.vscode/
+.vs/
