@@ -1,4 +1,4 @@
-﻿using Microsoft.Office.Interop.Outlook;
+using Microsoft.Office.Interop.Outlook;
 using Microsoft.Office.Interop.Word;
 using System;
 using System.Collections.Generic;
@@ -40,7 +40,13 @@ namespace emailer
 
     private void LoadConfig()
     {
-      if (!File.Exists(configPath)) return;
+      if (!File.Exists(configPath))
+      {
+        MessageBox.Show($"錯誤：無法找到檔案參數 'config.json'\n\n" +
+            $"請確保 Excel 檔案已正確放置，\n檔名格式為：\n\nconfig.json",
+            "缺少檔案", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        return;
+      }
 
       string json = File.ReadAllText(configPath);
       var config = JsonSerializer.Deserialize<ConfigModel>(json);
@@ -133,7 +139,7 @@ namespace emailer
 
       // 建立簽名內容
       string signature = boldTitle
-                         + (remainingText != "" ? "<br>" + remainingText : "")
+                         + remainingText
                          + "<br>" + ContactInfo.Text.Replace("\r\n", "<br>").Replace("\n", "<br>")
                          + "<br>" + contactMailFormatted;
 
